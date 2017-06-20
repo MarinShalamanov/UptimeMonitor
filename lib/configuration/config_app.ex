@@ -7,7 +7,7 @@ defmodule UptimeMonitor.ConfigApp do
       Plug.Adapters.Cowboy.child_spec(:http, UptimeMonitor.Router, [], port: 8080)
     ]
 
-    Logger.info "Started application"
+    Logger.info "Started application on port 8080"
 
     Supervisor.start_link(children, strategy: :one_for_one)
   end

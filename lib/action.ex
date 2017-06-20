@@ -6,4 +6,6 @@ defmodule UptimeMonitor.Action do
     
     def take_action(%Action{type: :none}), do: :ok
     
+    def take_action(nil), do: :ok
+    
 end

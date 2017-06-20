@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>All Monitor</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+    
+<body>
+
+    <table id="tab" border="1">
+    <tr>
+        <th>URL</th>
+        <th>keep history</th>
+        <th>action on up</th>
+        <th>action on down</th>
+    </tr>
+        
+    </table>
+    
+    
+    <script>
+    $.get( "/api/all_monitors", function( data ) {
+        for(var i = 0; i < data.length; i++) {
+          $( "#tab" ).append("<tr>" + 
+                             "<td>" + data[i].url + "</td>" + 
+                             "<td>" + data[i].keep_history + "</td>" + 
+                             "<td>" + data[i].action_on_up + "</td>" + 
+                             "<td>" + data[i].action_on_down + "</td>" + 
+                             "</tr>")  
+        }
+          
+    });
+    </script>
+    
+</body>
+</html>

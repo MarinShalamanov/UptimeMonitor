@@ -32,6 +32,7 @@ defmodule Uptimemonitor.Mixfile do
     [{:cowboy, "~> 1.1.2"},
      {:plug, "~> 1.3.4"},
      {:amnesia, github: "meh/amnesia", tag: :master},
-     {:httpotion, "~> 3.0.2"}]
+     {:httpotion, "~> 3.0.2"},
+     {:poison, "~> 3.1"}]
   end
 end

@@ -9,7 +9,7 @@ defmodule UptimeMonitor.Configuration do
     def add_monitor do 
         Logger.info "writing..."
         Amnesia.transaction do
-            mon = %MonitorItem{url: "https://github.com/", action_on_up: nil, action_on_down: nil, keep_history: nil} |> MonitorItem.write!
+            mon = %MonitorItem{url: "https://github.com/", action_on_up: nil, action_on_down: nil, keep_history: true} |> MonitorItem.write!
             
             Logger.info inspect(mon)
         
@@ -17,11 +17,24 @@ defmodule UptimeMonitor.Configuration do
         end
     end
     
-    def add_monitor(_url, _action_on_down, _action_on_up, _keep_history) do 
-
+    def add_monitor(monitor) do 
+        Logger.info "writing..."
+        Amnesia.transaction do
+            monitor |> MonitorItem.write!
+            
+            Logger.info inspect(monitor)
+        
+            monitor
+        end
     end
     
     def remove_monitor(_url) do 
         raise "not implemented"    
+    end
+
+    def all_monitors do
+        Amnesia.transaction do 
+            MonitorItem.stream |> Enum.to_list
+        end
     end
 end

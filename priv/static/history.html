@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>All Monitor</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+    
+<body>
+
+    <table id="tab" border="1">
+    <tr>
+        <th>URL</th>
+        <th>time </th>
+        <th>status</th>
+    </tr>
+        
+    </table>
+    
+    
+    <script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+    
+        
+    var url = getUrlParameter("url");
+    var reqUrl = "/api/history" + ((url) ? ("?url=" + url) : "")
+    $.get(reqUrl, function( data ) {
+        for(var i = 0; i < data.length; i++) {
+          $( "#tab" ).append("<tr>" + 
+                             "<td>" + data[i].url + "</td>" + 
+                             "<td>" + data[i].time + "</td>" + 
+                             "<td>" + data[i].status + "</td>" + 
+                             "</tr>")  
+        }
+          
+    });
+    </script>
+    
+</body>
+</html>
