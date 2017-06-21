@@ -1,4 +1,5 @@
 defmodule UptimeMonitor.Monitor do
+    
     alias UptimeMonitor.Database.MonitorItem;
     alias UptimeMonitor.Database.History;
     alias UptimeMonitor.Action;

@@ -20,7 +20,7 @@ defmodule UptimeMonitor.Configuration do
     def add_monitor(monitor) do 
         Logger.info "writing..."
         Amnesia.transaction do
-            monitor |> MonitorItem.write!
+            monitor |> MonitorItem.write
             
             Logger.info inspect(monitor)
         

@@ -16,7 +16,7 @@ defmodule Uptimemonitor.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:cowboy, :logger, :plug],
-        mod: {UptimeMonitor.ConfigApp, []}]
+        mod: {UptimeMonitor, []}]
   end
 
   # Dependencies can be Hex packages:
