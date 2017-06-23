@@ -4,10 +4,34 @@
 </head>
     
 <body>
-
+    <h2> Add monitor </h2>
+    
     <form action="/api/add_monitor" method="post">
-      Url: <input type="text" name="url"><br>
-      <input type="submit" value="Add">
+        Url: <input type="text" name="url"><br/>
+        Time interval: <input type="number" name="interval"><br/>
+        
+        Action on up type: 
+        <select name="action_up">
+          <option value="none">none</option>
+          <option value="httpcall">http call</option>
+        </select> 
+        <br/>
+        
+        URL (if http call): <input type="text" name="url_up"/> <br/>
+        
+        Action on down type: 
+        <select name="action_down">
+          <option value="none">none</option>
+          <option value="httpcall">http call</option>
+        </select> 
+        <br/>
+        
+        URL (if http call): <input type="text" name="url_down"/><br/>
+        
+        Keep history: <input type="checkbox" name="history"> <br/>  
+        
+        
+        <input type="submit" value="Add">
     </form>
 </body>
 </html>

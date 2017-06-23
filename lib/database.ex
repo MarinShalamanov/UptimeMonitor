@@ -4,22 +4,17 @@ use Amnesia
 # some additional magic
 defdatabase UptimeMonitor.Database do
   
-  deftable MonitorItem, [:url, :action_on_up, :action_on_down, :keep_history], type: :bag do
+  deftable MonitorItem, [:url, :action_on_up, :action_on_down, :keep_history, :time_interval], type: :bag do
     
   end
 
-  deftable History, [:url, :time, :status], type: :bag, index: [:url, :time] do
+  deftable History, [:url, :time, :status], type: :bag, index: [:time] do
     def add_entry ({status, _item = %MonitorItem{url: url} }) do 
         en = %History{
             url: url, 
             time: :os.system_time(:millisecond), 
             status: status
         } 
-        
-        require Logger
-        
-        Logger.info("writing")
-        Logger.info(inspect(en))
         
         en |> History.write    
     end
