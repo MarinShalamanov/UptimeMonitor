@@ -2,6 +2,11 @@
 defmodule UptimeMonitor.Supervisor do
     use Supervisor
     
+    @moduledoc """
+    The main supervisor of the application. Supervised the administration 
+    panel (http server) and the MonitorSupervisor (which handles the monitor logic). 
+    """
+    
     def start_link do
         Supervisor.start_link(__MODULE__, [], name: __MODULE__)
     end

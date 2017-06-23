@@ -1,6 +1,12 @@
 
 defmodule UptimeMonitor.Core.Worker do 
     use GenServer
+    @moduledoc """
+    GenServer which does the actual monitoring.
+    
+    It is initialized with the MonitorItem which will be monitored.
+    Casting :inactivate will kill the process.
+    """
     
     alias UptimeMonitor.Core.Monitor;
     alias UptimeMonitor.Database.MonitorItem;
@@ -15,6 +21,7 @@ defmodule UptimeMonitor.Core.Worker do
         GenServer.start_link(__MODULE__, monitor, name: ref(monitor))
     end
     
+    @spec init(MonitorItem.t) :: {:ok, MonitorItem.t}
     def init(monitor) do
         schedule_next_check(monitor.time_interval)
         {:ok, monitor}

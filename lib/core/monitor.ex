@@ -1,4 +1,8 @@
 defmodule UptimeMonitor.Core.Monitor do
+    @moduledoc """
+    The logic for checking the status of the url and taking 
+    any corresponding actions.
+    """
     
     alias UptimeMonitor.Database.MonitorItem;
     alias UptimeMonitor.Database.History;
@@ -9,6 +13,10 @@ defmodule UptimeMonitor.Core.Monitor do
     @type monitor_status :: :ok | :error
     @type url_status :: :up | :down | :unknown
     
+    @doc """
+    Checks the given monitor items, takes any corresponding actions 
+    and logs the check in the DB.
+    """
     @spec monitor(MonitorItem) :: {monitor_status, {url_status, MonitorItem}}
     def monitor(item) do 
         status = item |> check
@@ -37,9 +45,6 @@ defmodule UptimeMonitor.Core.Monitor do
         end
     end
     
-    defp to_up_down_atom(_up = true), do: :up
-    defp to_up_down_atom(_up = false), do: :down
-    
     defp write_to_db({_, %MonitorItem{keep_history: false}}), do: :ok
         
     defp write_to_db(history_item) do
@@ -57,7 +62,7 @@ defmodule UptimeMonitor.Core.Monitor do
     defp take_action_if_needed({state, item}) do 
         
         last_state = Amnesia.transaction do
-            History.last_state_of(item.url)
+            History.get_last_state(item.url)
         end
         
         if state != last_state do 

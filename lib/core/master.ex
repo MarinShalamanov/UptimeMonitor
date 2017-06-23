@@ -2,6 +2,11 @@ use Amnesia
 
 defmodule UptimeMonitor.Core.Master do 
     use GenServer 
+    @moduledoc """
+    Spawns and kills workers according to changes in the set
+    of the registered monitors, i.e. changes in the database. 
+    """
+    
     
     alias UptimeMonitor.Core.WorkerSupervisor
     alias UptimeMonitor.Database.MonitorItem
@@ -22,11 +27,11 @@ defmodule UptimeMonitor.Core.Master do
         {:ok, state}
     end
     
-    def handle_call(mess, _from, state) do
+    def handle_call(_mess, _from, state) do
         {:reply, nil, state}
     end
     
-    def handle_cast(mess, state) do
+    def handle_cast(_mess, state) do
         {:noreply, state}
     end
     
@@ -50,8 +55,7 @@ defmodule UptimeMonitor.Core.Master do
         {:noreply, state}
     end
     
-    def handle_info(mess, state) do 
-        Logger.info("Master got info " <> inspect(mess))
+    def handle_info(_mess, state) do 
         {:noreply, state}
     end
     

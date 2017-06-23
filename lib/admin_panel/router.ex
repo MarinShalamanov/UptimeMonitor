@@ -2,9 +2,11 @@ use Amnesia
 
 defmodule UptimeMonitor.AdminPanel.Router do
     use Plug.Router
-
+    @moduledoc """
+    Handles all requests for the admin panel.
+    """
+    
     alias UptimeMonitor.Database.MonitorItem
-    alias UptimeMonitor.Database.History
     alias UptimeMonitor.Configuration
     alias UptimeMonitor.Core.Action
     
@@ -35,6 +37,15 @@ defmodule UptimeMonitor.AdminPanel.Router do
         send_resp(conn, 
             200, 
             monitor |> Configuration.add_monitor |> inspect )
+    end
+
+    get "api/remove_monitor" do
+        url = conn.params["url"]
+
+        case (url |> Configuration.remove_monitor) do 
+            :ok -> send_resp(conn, 200, url)
+            _ -> send_resp(conn, 500, "An error occured")
+        end
     end
 
     get "api/all_monitors" do

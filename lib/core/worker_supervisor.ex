@@ -2,8 +2,11 @@
 defmodule UptimeMonitor.Core.WorkerSupervisor do 
     use Supervisor
     
-    alias UptimeMonitor.Core.Worker
+    @moduledoc """
+    Supervising all workers.
+    """
     
+    alias UptimeMonitor.Core.Worker
     require Logger
     
     def start_link do
