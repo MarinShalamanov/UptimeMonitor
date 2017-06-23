@@ -32,6 +32,11 @@ defdatabase UptimeMonitor.Database do
         History.read(url) || []
     end
     
+    def get_last (url) do
+        get(url) 
+        |> Enum.sort_by(fn x -> x.time end, &>=/2)
+        |> Enum.at(0)
+    end
   end
 
 end

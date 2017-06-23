@@ -1,10 +1,10 @@
 
-defmodule UptimeMonitor.Supervisor do
+defmodule UptimeMonitor.Core.MonitorSupervisor do
     use Supervisor
     
     
-    alias UptimeMonitor.Master
-    alias UptimeMonitor.MonitorSupervisor
+    alias UptimeMonitor.Core.Master
+    alias UptimeMonitor.Core.WorkerSupervisor
     
     def start_link do
         Supervisor.start_link(__MODULE__, [], name: __MODULE__)
@@ -12,7 +12,7 @@ defmodule UptimeMonitor.Supervisor do
     
     def init(_args) do
         children = [
-            supervisor(MonitorSupervisor, []),
+            supervisor(WorkerSupervisor, []),
             worker(Master, [])
         ]
 

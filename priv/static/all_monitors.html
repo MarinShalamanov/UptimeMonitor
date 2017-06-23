@@ -5,6 +5,10 @@
 </head>
     
 <body>
+    
+    <h2>All monitors</h2>
+    <a href="index.html">back</a> <p/>
+    
 
     <table id="tab" border="1">
     <tr>
@@ -13,6 +17,7 @@
         <th>action on up</th>
         <th>action on down</th>
         <th>interval</th>
+        <th>history</th>
     </tr>
         
     </table>
@@ -27,6 +32,7 @@
                              "<td>" + data[i].action_on_up + "</td>" + 
                              "<td>" + data[i].action_on_down + "</td>" + 
                              "<td>" + data[i].time_interval + "</td>" + 
+                             "<td><a href='history.html?url=" + data[i].url + "'>history</a></td>" + 
                              "</tr>")  
         }
           

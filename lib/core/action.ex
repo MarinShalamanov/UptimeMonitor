@@ -1,8 +1,8 @@
-defmodule UptimeMonitor.Action do
+defmodule UptimeMonitor.Core.Action do
     
     defstruct type: :none, attributes: []
     
-    alias UptimeMonitor.Action
+    alias UptimeMonitor.Core.Action
     
     
     @type action_type :: :none | :httpcall

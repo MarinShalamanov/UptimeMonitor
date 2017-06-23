@@ -1,8 +1,8 @@
-defmodule UptimeMonitor.Monitor do
+defmodule UptimeMonitor.Core.Monitor do
     
     alias UptimeMonitor.Database.MonitorItem;
     alias UptimeMonitor.Database.History;
-    alias UptimeMonitor.Action;
+    alias UptimeMonitor.Core.Action;
     
     use Amnesia
     

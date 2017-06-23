@@ -1,8 +1,8 @@
 
-defmodule UptimeMonitor.Worker do 
+defmodule UptimeMonitor.Core.Worker do 
     use GenServer
     
-    alias UptimeMonitor.Monitor;
+    alias UptimeMonitor.Core.Monitor;
     alias UptimeMonitor.Database.MonitorItem;
     
     require Logger
@@ -12,15 +12,10 @@ defmodule UptimeMonitor.Worker do
     end
     
     def start_link(monitor) do
-        Logger.info("start_link with: " <> inspect(monitor))
-        
-        
         GenServer.start_link(__MODULE__, monitor, name: ref(monitor))
     end
     
     def init(monitor) do
-        Logger.info("gen server init with: " <> inspect(monitor))
-        
         schedule_next_check(monitor.time_interval)
         {:ok, monitor}
     end

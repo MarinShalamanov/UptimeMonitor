@@ -1,8 +1,8 @@
 
-defmodule UptimeMonitor.MonitorSupervisor do 
+defmodule UptimeMonitor.Core.WorkerSupervisor do 
     use Supervisor
     
-    alias UptimeMonitor.Worker
+    alias UptimeMonitor.Core.Worker
     
     require Logger
     

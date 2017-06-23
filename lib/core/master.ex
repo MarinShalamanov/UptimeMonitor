@@ -1,11 +1,11 @@
 use Amnesia 
 
-defmodule UptimeMonitor.Master do 
+defmodule UptimeMonitor.Core.Master do 
     use GenServer 
     
-    alias UptimeMonitor.MonitorSupervisor
+    alias UptimeMonitor.Core.WorkerSupervisor
     alias UptimeMonitor.Database.MonitorItem
-    alias UptimeMonitor.Worker
+    alias UptimeMonitor.Core.Worker
     
     require Logger
     
@@ -23,12 +23,10 @@ defmodule UptimeMonitor.Master do
     end
     
     def handle_call(mess, _from, state) do
-        Logger.info("Master got info " <> inspect(mess))
         {:reply, nil, state}
     end
     
     def handle_cast(mess, state) do
-        Logger.info("Master got cast" <> inspect(mess))
         {:noreply, state}
     end
     
@@ -36,7 +34,7 @@ defmodule UptimeMonitor.Master do
         
         new_record
         |> recordToMonitorStruct 
-        |> MonitorSupervisor.start_child   
+        |> WorkerSupervisor.start_child   
             
         {:noreply, state}
     end
@@ -74,7 +72,10 @@ defmodule UptimeMonitor.Master do
     defp run_workers do
         Amnesia.transaction do
             MonitorItem.stream 
-            |>  Enum.map(fn (x) -> Enum.map(x, &MonitorSupervisor.start_child/1) end ) 
+            |>  Enum.map(fn (x) -> 
+                    Enum.map(x, &WorkerSupervisor.start_child/1) 
+                    end 
+            ) 
         end
     end
 

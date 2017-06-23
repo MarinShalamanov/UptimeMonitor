@@ -1,12 +1,12 @@
 use Amnesia
 
-defmodule UptimeMonitor.Router do
+defmodule UptimeMonitor.AdminPanel.Router do
     use Plug.Router
 
     alias UptimeMonitor.Database.MonitorItem
     alias UptimeMonitor.Database.History
     alias UptimeMonitor.Configuration
-    alias UptimeMonitor.Action
+    alias UptimeMonitor.Core.Action
     
     require Logger
     
@@ -20,11 +20,6 @@ defmodule UptimeMonitor.Router do
     plug :dispatch
     
     get "/", do: send_resp(conn, 200, "Welcome")
-    get "/test" do
-        send_resp(conn, 200, inspect(UptimeMonitor.Monitor.monitor(MonitorItem.read!("https://elixir-lang.org/") |> List.first )))  
-    end  
-
-
 
     post "api/add_monitor" do
         Logger.info("add " <> inspect(conn))
@@ -37,9 +32,6 @@ defmodule UptimeMonitor.Router do
             keep_history: get_history(conn)} 
         |> validate
 
-        
-        Logger.info("add " <> inspect(monitor))
-        
         send_resp(conn, 
             200, 
             monitor |> Configuration.add_monitor |> inspect )
@@ -57,22 +49,18 @@ defmodule UptimeMonitor.Router do
 
     get "api/history" do
         response = 
-            Amnesia.transaction do 
-                Map.get(conn.params, "url", :all)    
-                |> History.get 
-                |> List.flatten
-                |> Enum.sort_by(fn(x) -> x.time end, &>=/2)
-                |> Enum.map(fn(x) -> 
-                    new_time = x.time 
-                        |> DateTime.from_unix!(:millisecond)
-                        |> DateTime.to_string
-                    
-                    %{x | :time => new_time}
-                    end
-                    )
-                |> Poison.encode!
-            end 
+            Map.get(conn.params, "url", :all)
+            |> Configuration.get_history
+            |> Enum.map(fn(x) -> 
+                new_time = x.time 
+                    |> DateTime.from_unix!(:millisecond)
+                    |> DateTime.to_string
 
+                %{x | :time => new_time}
+                end
+                )
+            |> Poison.encode!
+            
         conn
         |> put_resp_content_type("application/json")
         |> send_resp(200, response)
